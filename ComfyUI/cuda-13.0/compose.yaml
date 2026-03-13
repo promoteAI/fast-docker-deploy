@@ -10,13 +10,13 @@ services:
     ports:
       - "8188:8188"
     volumes:
-      - "./storage:/root"
-      - "./storage-models/models:/root/ComfyUI/models"
-      - "./storage-models/hf-hub:/root/.cache/huggingface/hub"
-      - "./storage-models/torch-hub:/root/.cache/torch/hub"
-      - "./storage-user/input:/root/ComfyUI/input"
-      - "./storage-user/output:/root/ComfyUI/output"
-      - "./storage-user/workflows:/root/ComfyUI/user/default/workflows"
+      - "${DOCKER_PATH}/storage:/root"
+      - "${DOCKER_PATH}/storage-models/models:/root/ComfyUI/models"
+      - "${DOCKER_PATH}/storage-models/hf-hub:/root/.cache/huggingface/hub"
+      - "${DOCKER_PATH}/storage-models/torch-hub:/root/.cache/torch/hub"
+      - "${DOCKER_PATH}/storage-user/input:/root/ComfyUI/input"
+      - "${DOCKER_PATH}/storage-user/output:/root/ComfyUI/output"
+      - "${DOCKER_PATH}/storage-user/workflows:/root/ComfyUI/user/default/workflows"
     environment:
       - CLI_ARGS=
     security_opt:

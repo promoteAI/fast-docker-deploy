@@ -1,0 +1,35 @@
+# 构建产物和缓存
+.cache/
+*.pyc
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# 环境与配置
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+*.log
+
+# ComfyUI 运行时数据
+ComfyUI/*/storage/ComfyUI/output/
+ComfyUI/*/storage/ComfyUI/input/
+ComfyUI/*/storage/ComfyUI/models/
+ComfyUI/*/storage/ComfyUI/temp/
+ComfyUI/*/storage/ComfyUI/user/
+ComfyUI/*/storage/.cache/
+
+# IDE 和系统
+.idea/
+.vscode/
+.vs/
+.DS_Store
+*.swp
+*~
+
+# Docker 本地
+*.tar
+*storage*/

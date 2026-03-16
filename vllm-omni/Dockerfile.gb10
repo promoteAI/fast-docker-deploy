@@ -1,0 +1,25 @@
+ARG VLLM_BASE_IMAGE=vllm-omni
+ARG VLLM_BASE_TAG=v0.16.0
+FROM ${VLLM_BASE_IMAGE}:${VLLM_BASE_TAG}
+ARG APP_DIR=/workspace
+WORKDIR ${APP_DIR}
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y ffmpeg git sox libsox-fmt-all jq && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install vllm-omni into the same uv-managed Python environment used by the base image.
+# Use bash -c so that $(python3 -c ...) is expanded inside the container.
+RUN git clone https://github.com/vllm-project/vllm-omni.git ${APP_DIR}
+# 注释 requirements/cuda.txt 中 fa3-fwd 库（README 要求）
+RUN sed -i 's/^fa3-fwd/# fa3-fwd/' requirements/cuda.txt
+RUN pip install -e ${APP_DIR}/vllm-omni  -i https://repo.huaweicloud.com/repository/pypi/simple
+COPY . ${APP_DIR}/vllm-omni
+RUN pip install ${APP_DIR}/vllm-omni/whl/flash_attn-2.8.3+cu12torch2.9cxx11abiTRUE-cp312-cp312-linux_aarch64.whl -i https://repo.huaweicloud.com/repository/pypi/simple
+RUN pip install triton --upgrade -i https://repo.huaweicloud.com/repository/pypi/simple
+
+RUN ln -sf /usr/bin/python3 /usr/bin/python
+
+ENTRYPOINT []

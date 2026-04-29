@@ -19,6 +19,16 @@ services:
       - "${DOCKER_PATH}/storage-user/workflows:/root/ComfyUI/user/default/workflows"
     environment:
       - CLI_ARGS=
+    command:
+      - bash
+      - -lc
+      - |
+        pip install -c /builder-scripts/constraints.txt \
+          -r /default-comfyui-bundle/ComfyUI/requirements.txt \
+          -r /default-comfyui-bundle/ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt \
+          -i https://repo.huaweicloud.com/repository/pypi/simple \
+          --extra-index-url https://pypi.org/simple \
+        && bash /runner-scripts/entrypoint.sh
     security_opt:
       - "label=type:nvidia_container_t"
     deploy:
